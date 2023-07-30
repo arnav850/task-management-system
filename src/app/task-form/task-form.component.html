@@ -1,0 +1,32 @@
+<!-- src/app/task-form/task-form.component.html -->
+<div>
+    <h2>{{ task ? 'Edit Task' : 'Add Task' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label>Title:</label>
+      <input type="text" [(ngModel)]="task.title" name="title" required />
+  
+      <label>Description:</label>
+      <textarea [(ngModel)]="task.description" name="description" required></textarea>
+  
+      <label>Due Date:</label>
+      <input type="date" [(ngModel)]="task.dueDate" name="dueDate" required />
+  
+      <label>Priority:</label>
+      <select [(ngModel)]="task.priority" name="priority" required>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+  
+      <label>Status:</label>
+      <select [(ngModel)]="task.status" name="status" required>
+        <option value="to-do">To-Do</option>
+        <option value="in-progress">In-Progress</option>
+        <option value="completed">Completed</option>
+      </select>
+  
+      <button type="submit">{{ task ? 'Update' : 'Add' }}</button>
+      <button type="button" (click)="onCancel()">Cancel</button>
+    </form>
+  </div>
+  
