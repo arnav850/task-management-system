@@ -1,0 +1,74 @@
+/* app.component.scss */
+
+/* Style for the container div */
+div {
+    margin: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+  
+  /* Style for the heading */
+  h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the task list */
+  app-task-list {
+    /* Your existing styles for the task list component go here */
+  
+    @media screen and (max-width: 768px) {
+      /* Adjust styles for small screens (e.g., mobile devices) */
+      div {
+        margin: 10px;
+      }
+  
+      h2 {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+  
+      /* Add more responsive styles as needed */
+    }
+  }
+  
+  /* Style for the task create component */
+  app-task-create {
+    /* Your existing styles for the task create component go here */
+  
+    @media screen and (max-width: 768px) {
+      /* Adjust styles for small screens (e.g., mobile devices) */
+      .task-form {
+        max-width: 100%;
+        padding: 0 10px;
+  
+        h2 {
+          font-size: 20px;
+          margin-bottom: 16px;
+        }
+  
+        /* Add more responsive styles as needed */
+      }
+    }
+  }
+  
+  /* Style for the task details component */
+  app-task-details {
+    /* Your existing styles for the task details component go here */
+  
+    @media screen and (max-width: 768px) {
+      /* Adjust styles for small screens (e.g., mobile devices) */
+      div {
+        padding: 10px;
+      }
+  
+      h2 {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+  
+      /* Add more responsive styles as needed */
+    }
+  }
+  

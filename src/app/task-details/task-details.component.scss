@@ -1,0 +1,43 @@
+/* task-details.component.scss */
+
+/* Container styles for the task details */
+div {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading styles */
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Strong text styles */
+  strong {
+    font-weight: bold;
+  }
+  
+  /* Task details styles */
+  p {
+    margin-bottom: 5px;
+  }
+  
+  /* Priority styles (you can add more specific styles based on the priority value) */
+  p strong:nth-child(4) {
+    color: #e74c3c; /* Red color for high priority */
+  }
+  
+  p strong:nth-child(5) {
+    color: #3498db; /* Blue color for status (assuming you have "to-do", "in-progress", "completed" as status values) */
+  }
+  
+  /* Custom styles for Due Date (assuming you want to emphasize it) */
+  p strong:nth-child(3) {
+    color: #27ae60; /* Green color for due date */
+    font-style: italic;
+  }
+  
+  

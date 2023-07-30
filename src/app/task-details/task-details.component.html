@@ -1,8 +1,13 @@
-<div *ngIf="task">
-  <h2>Task Details</h2>
-  <p><strong>Title:</strong> {{ task.title }}</p>
+<!-- task-details.component.html -->
+
+<div>
+  <h2>{{ task.title }}</h2>
   <p><strong>Description:</strong> {{ task.description }}</p>
   <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
   <p><strong>Priority:</strong> {{ task.priority }}</p>
   <p><strong>Status:</strong> {{ task.status }}</p>
+
+  <!-- Display the history log component -->
+  <h3>History Log</h3>
+  <app-history-log [historyLog]="task.history"></app-history-log>
 </div>

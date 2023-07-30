@@ -11,6 +11,7 @@ import { TaskCreateComponent } from './task-create/task-create.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
+import { HistoryLogComponent } from './history-log/history-log.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
     TaskListComponent,
     TaskFormComponent,
     TaskDetailsComponent,
+    HistoryLogComponent,
   ],
   imports: [
     BrowserModule,

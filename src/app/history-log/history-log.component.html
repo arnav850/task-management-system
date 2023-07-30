@@ -1,0 +1,8 @@
+<!-- src/app/history-log/history-log.component.html -->
+
+<ul>
+    <li *ngFor="let log of historyLog">
+      <span>{{ log.timestamp | date }} - {{ log.action }}</span>
+    </li>
+  </ul>
+  
