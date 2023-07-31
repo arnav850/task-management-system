@@ -36,6 +36,8 @@ export class TaskDetailsComponent {
       // Call the task service method to update the task status
       this.taskService.updateTaskStatus(this.task.id, newStatus).subscribe((tasks: Task[]) => {
         console.log('Task status updated successfully:', newStatus);
+        this.task!.status = newStatus;
+
         // Optionally, you can handle the response or do something after updating the status
       });
     }

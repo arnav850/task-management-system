@@ -12,6 +12,7 @@ import { SortTasksPipe } from './sort-tasks.pipe'; // Import the SortTasksPipe
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
+import { TaskEditComponent } from './task-edit/task-edit.component'; // Import TaskEditComponent
 import { HistoryLogComponent } from './history-log/history-log.component';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { HistoryLogComponent } from './history-log/history-log.component';
     TaskFormComponent,
     TaskDetailsComponent,
     HistoryLogComponent,
+    TaskEditComponent
   ],
   imports: [
     BrowserModule,
