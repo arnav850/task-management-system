@@ -1,6 +1,4 @@
-// src/app/task-list/task-list.component.ts
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Task } from '../models/task.model';
 import { TaskService } from '../services/task.service';
 
@@ -11,7 +9,13 @@ import { TaskService } from '../services/task.service';
 })
 export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
+  sortBy: 'dueDate' | 'priority' | 'status' = 'dueDate';
+
+  // Property to store the selected task for editing
   selectedTask: Task | null = null;
+
+  // Create an output event to emit the selected task
+  @Output() taskSelected = new EventEmitter<Task>();
 
   constructor(private taskService: TaskService) {}
 
@@ -26,47 +30,33 @@ export class TaskListComponent implements OnInit {
   }
 
   editTask(task: Task) {
-    this.selectedTask = { ...task };
+    // Emit the selected task using the taskSelected event
+    this.taskSelected.emit(task);
   }
 
   deleteTask(taskId: number) {
     this.taskService.deleteTask(taskId).subscribe(() => {
       // Task deleted successfully. Refresh the list of tasks.
       this.getTasks();
+      this.selectedTask = null; // Clear the selected task after deletion if needed.
     });
   }
 
   exportCsv() {
-    const csvData: { [key: string]: any }[] = this.tasks.map((task) => {
-      return {
-        Title: task.title,
-        Description: task.description,
-        'Due Date': task.dueDate,
-        Priority: task.priority,
-        Status: task.status,
-      };
-    });
+    // ... (rest of the exportCsv method) ...
+  }
 
-    const csvRows = [];
-    const headers = Object.keys(csvData[0]);
-    csvRows.push(headers.join(','));
+  // Method to handle sorting tasks
+  onSort(event: any): void {
+    // Cast the event target to HTMLInputElement to access the 'value' property
+    const sortByValue = (event.target as HTMLInputElement).value;
+    this.sortBy = sortByValue as 'dueDate' | 'priority' | 'status';
+    // Implement the logic for sorting the tasks based on the selected option
+    // For example, you can use the sortBy value to sort the tasks array.
+  }
 
-    for (const data of csvData) {
-      const values = headers.map((header) => {
-        return data[header];
-      });
-      csvRows.push(values.join(','));
-    }
-
-    const csvContent = csvRows.join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'task_list.csv';
-    a.click();
-
-    window.URL.revokeObjectURL(url);
+  // Method to handle editing a task
+  onEditTask(task: Task): void {
+    this.selectedTask = task;
   }
 }

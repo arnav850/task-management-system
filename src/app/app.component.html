@@ -1,7 +1,8 @@
 <div>
-  <h1>Task Management App</h1>
-  <app-task-list></app-task-list>
-  <app-task-create></app-task-create>
+  <h1>Welcome to Task Management System</h1>
+  <!-- Add your other components and content here -->
+  <app-task-list (taskSelected)="onTaskSelected($event)"></app-task-list>
+  <app-task-create [formGroup]="taskForm" (createTask)="onCreateTask($event)"></app-task-create>
 
   <!-- Check if selectedTask is not null before displaying task details -->
   <app-task-details *ngIf="selectedTask" [task]="selectedTask"></app-task-details>

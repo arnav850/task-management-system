@@ -1,6 +1,4 @@
-<!-- task-details.component.html -->
-
-<div>
+<div *ngIf="task">
   <h2>{{ task.title }}</h2>
   <p><strong>Description:</strong> {{ task.description }}</p>
   <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
@@ -10,4 +8,10 @@
   <!-- Display the history log component -->
   <h3>History Log</h3>
   <app-history-log [historyLog]="task.history"></app-history-log>
+
+  <!-- Buttons to update the status of the task -->
+  <button (click)="updateTaskStatus('to-do')">To-Do</button>
+  <button (click)="updateTaskStatus('in-progress')">In Progress</button>
+  <button (click)="updateTaskStatus('completed')">Completed</button>
+  <button (click)="editTask()">Edit</button>
 </div>

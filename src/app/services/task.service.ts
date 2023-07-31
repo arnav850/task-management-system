@@ -1,3 +1,5 @@
+// services/task.service.ts
+
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Task, TaskHistoryEntry } from '../models/task.model';
@@ -17,7 +19,14 @@ export class TaskService {
 
   // Method to add a new task
   addTask(task: Task): Observable<Task[]> {
-    this.tasks.push(task);
+    const newTask: Task = {
+      ...task,
+      id: this.tasks.length + 1,
+      createdAt: new Date(),
+      history: [],
+    };
+
+    this.tasks.push(newTask);
     return of(this.tasks);
   }
 
@@ -38,7 +47,34 @@ export class TaskService {
       this.tasks[index] = { ...updatedTask };
 
       // Update the history log for the task
-      this.updateTaskHistory(index, originalTask);
+      const historyEntry: TaskHistoryEntry = {
+        timestamp: new Date(),
+        action: 'Edited',
+        changes: this.getTaskChanges(originalTask, updatedTask),
+      };
+      this.updateTaskHistory(index, historyEntry);
+
+      return of(this.tasks);
+    }
+
+    return of([]);
+  }
+
+  // Method to update the status of a task by id
+  updateTaskStatus(taskId: number, newStatus: 'to-do' | 'in-progress' | 'completed'): Observable<Task[]> {
+    const index = this.tasks.findIndex((task) => task.id === taskId);
+    if (index !== -1) {
+      const originalTask = { ...this.tasks[index] };
+      this.tasks[index].status = newStatus;
+
+      const historyEntry: TaskHistoryEntry = {
+        timestamp: new Date(),
+        action: 'Status Updated',
+        changes: {
+          status: newStatus,
+        },
+      };
+      this.updateTaskHistory(index, historyEntry);
 
       return of(this.tasks);
     }
@@ -52,27 +88,19 @@ export class TaskService {
   }
 
   // Helper method to update the history log for a task
-  private updateTaskHistory(index: number, originalTask: Task): void {
-    if (!this.tasks[index].history) {
-      this.tasks[index].history = [];
+  private updateTaskHistory(index: number, entry: TaskHistoryEntry): void {
+    if (this.tasks[index]) {
+      if (!this.tasks[index].history) {
+        this.tasks[index].history = [];
+      }
+      this.tasks[index].history!.push(entry); // Use non-null assertion operator (!) here
+    } else {
+      console.error(`Task at index ${index} does not exist.`);
     }
-
-    // Add the history log entry
-    this.tasks[index].history.push({
-      timestamp: new Date(),
-      action: 'Edited',
-      changes: this.getTaskChanges(originalTask, this.tasks[index]),
-    });
   }
 
   // Helper method to get the changes between two task objects
   private getTaskChanges(originalTask: Task, updatedTask: Task): any {
-    // Compare the properties of the two task objects and return the changes
-    // You can implement this logic based on your requirements
-    // For example, you can use a library like deep-diff to get the differences
-    // between the two objects or manually compare the properties and return the changes as an object.
-    // The returned object will be specific to your application's requirements for tracking changes.
-    // Here's a simple example that returns all properties with their new values:
     const changes: any = {};
 
     Object.keys(updatedTask).forEach((property) => {
