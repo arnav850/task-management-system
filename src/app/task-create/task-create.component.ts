@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../services/task.service';
 import { Task } from '../models/task.model';
 
@@ -8,51 +9,33 @@ import { Task } from '../models/task.model';
   styleUrls: ['./task-create.component.scss'],
 })
 export class TaskCreateComponent {
-  newTask: Task = {
-    id: 0,
-    title: '',
-    description: '',
-    dueDate: new Date(),
-    priority: 'low',
-    status: 'to-do',
-    createdAt: new Date(), // Add the missing createdAt property
-    history: [], // Add the missing history property (assuming it's an array)
-  };
+  @Output() taskCreated = new EventEmitter<Task>();
 
-  constructor(private taskService: TaskService) {}
+  formGroup: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private taskService: TaskService) {
+    this.formGroup = this.formBuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      dueDate: [new Date(), Validators.required],
+      priority: ['low', Validators.required],
+    });
+  }
 
   addTask() {
-    // Implementation for adding a task
-    this.taskService.addTask(this.newTask).subscribe((tasks) => {
-      // Optionally, you can handle the response or do something after adding the task
-      console.log('Task added successfully:', this.newTask);
-    });
+    if (this.formGroup.valid) {
+      const formData = this.formGroup.value;
+      this.taskService.addTask(formData).subscribe((tasks) => {
+        // Emit the newly created task to the parent component
+        this.taskCreated.emit(formData);
 
-    // Reset the form fields after adding the task
-    this.newTask = {
-      id: 0,
-      title: '',
-      description: '',
-      dueDate: new Date(),
-      priority: 'low',
-      status: 'to-do',
-      createdAt: new Date(),
-      history: [],
-    };
+        // Reset the form fields after adding the task
+        this.formGroup.reset();
+      });
+    }
   }
 
   onCancel() {
-    // Implementation for canceling the form submission
-    // Reset the form fields
-    this.newTask = {
-      id: 0,
-      title: '',
-      description: '',
-      dueDate: new Date(),
-      priority: 'low',
-      status: 'to-do',
-      createdAt: new Date(),
-      history: [],
-    };
+    this.formGroup.reset();
   }
 }

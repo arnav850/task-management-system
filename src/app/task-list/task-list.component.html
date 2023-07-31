@@ -1,31 +1,27 @@
-<!-- src/app/task-list/task-list.component.html -->
 <div>
-    <h2>Task List</h2>
-    <button (click)="exportCsv()">Export CSV</button>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Due Date</th>
-          <th>Priority</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let task of tasks">
-          <td>{{ task.title }}</td>
-          <td>{{ task.description }}</td>
-          <td>{{ task.dueDate | date }}</td>
-          <td>{{ task.priority }}</td>
-          <td>{{ task.status }}</td>
-          <td>
-            <button (click)="editTask(task)">Edit</button>
-            <button (click)="deleteTask(task.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Task List</h2>
+  <div>
+    <label for="sort">Sort By:</label>
+    <select id="sort" (change)="onSort($event)">
+      <option value="dueDate">Due Date</option>
+      <option value="priority">Priority</option>
+      <option value="status">Status</option>
+    </select>
   </div>
-  
+  <ul>
+    <li *ngFor="let task of tasks | sortTasks: sortBy">
+      {{ task.title }} - {{ task.dueDate | date }} - {{ task.priority }} - {{ task.status }}
+    </li>
+  </ul>
+  <button (click)="exportCsv()">Export CSV</button>
+  <table>
+    <!-- ... (rest of the table code) ... -->
+  </table>
+
+  <!-- Add the Task Details component here -->
+  <app-task-details
+    *ngIf="selectedTask"
+    [task]="selectedTask"
+    (editTaskEvent)="onEditTask($event)"
+  ></app-task-details>
+</div>
